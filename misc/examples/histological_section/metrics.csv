@@ -1,0 +1,2 @@
+Image,File path,Amount of staining (no. pixels),Tissue area size (no. pixels,Percentage of staining in tissue area,Amount of cilia (no. pixels),Cilia-containing region size (no. pixels,Percentage of region occupied by cilia
+image1.tif,.\BIMANA\misc\examples\histological_section\images\image1.tif,4671,29510,16,1544,5670,27
