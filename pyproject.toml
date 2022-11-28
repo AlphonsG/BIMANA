@@ -21,6 +21,7 @@ dependencies = [
     "pandas",
     "pyvips",
     "matplotlib",
+    "kornia",
 ]
 
 [project.urls]
