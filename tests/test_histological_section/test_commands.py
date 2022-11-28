@@ -14,6 +14,11 @@ def test_histological_section_analysis(tmp_path: Path) -> None:
     output_dir = root_dir / str(img_filename).replace('.', '_')
     amount_staining = amount_cilia = True
 
+    histological_section_analysis.callback(root_dir, False, False)
+
+    assert not output_dir.is_dir()
+    assert len(list(root_dir.iterdir())) == 1
+
     non_tissue_lower_bgr_str = ('x', '10', '10')
     histological_section_analysis.callback(
         root_dir, amount_staining, amount_cilia,

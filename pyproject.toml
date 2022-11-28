@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bimana"
+description = "Package for performing automated bio-image analysis tasks."
+readme = "README.md"
+authors = [
+    {name = "Alphons Gwatimba"},
+    {email = "0go0vdp95@mozmail.com"}
+]
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+version = "0.1.0"
+dependencies = [
+    "natsort",
+    "click-web",
+    "scipy",
+    "opencv-python",
+    "pandas",
+    "pyvips",
+    "matplotlib",
+]
+
+[project.urls]
+homepage = "https://github.com/AlphonsG/BIMANA"
+documentation = "https://github.com/AlphonsG/BIMANA"
+repository = "https://github.com/AlphonsG/BIMANA"
+
+[project.optional-dependencies]
+test = ['pytest', 'pytest-cov']
+
+[project.scripts]
+bimana = "bimana.__main__:main"
+
+[tool.setuptools]
+packages = ["bimana"]

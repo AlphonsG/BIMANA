@@ -1,9 +1,7 @@
-from typing import Literal
-
 from bimana.cli import cli
 
 
-def main() -> Literal[0]:
+def main() -> int:
     cli()
 
     return 0

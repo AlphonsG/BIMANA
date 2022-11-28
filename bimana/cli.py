@@ -1,6 +1,7 @@
 import click
 
 from bimana.histological_section.commands import histological_section_analysis
+from bimana.tight_junctions.commands import tight_junction_analysis
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -15,3 +16,4 @@ def cli() -> None:
 
 
 cli.add_command(histological_section_analysis)
+cli.add_command(tight_junction_analysis)

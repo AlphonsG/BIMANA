@@ -1,22 +1,18 @@
-from typing import Any
-
 import cv2
 import numpy as np
 import numpy.typing as npt
 import pytest
 
-from bimana.utils.image_processing import (MAX_PX_VAL, binary_to_bgr_image,
-                                           bound_foreground,
-                                           bounded_foreground_polyline,
-                                           draw_polyline,
-                                           remove_isolated_segmented_objects,
-                                           scale_bgr_values,
-                                           smooth_foreground_bounds,
-                                           segment_image,
-                                           segment_polyline_bounded_region,
-                                           segment_region_above_polyline,
-                                           segment_region_within_image)
-from tests import TEST_BIN_IMG_PTH, TEST_REF_BIN_IMG_PTH
+from bimana.utils.image_processing import (
+    MAX_PX_VAL, binary_to_bgr_image, auto_segment_image, bound_foreground,
+    bounded_foreground_polyline, centre_coordinates, detect_circular_objects,
+    draw_polyline, extract_channel, ImageChannel, largest_objects,
+    remove_isolated_segmented_objects, scale_bgr_values,
+    smooth_foreground_bounds, segment_image, segment_polyline_bounded_region,
+    segment_region_above_polyline, segment_region_within_image,
+    subimage_coordinates)
+from tests import (CIRCLES_IMG_PTH, GREYSCALE_IMG_PTH, SUBIMG_PTH,
+                   TEST_BIN_IMG_PTH, TEST_REF_BIN_IMG_PTH)
 
 
 @pytest.fixture(scope='module')
@@ -29,6 +25,21 @@ def bin_img() -> npt.NDArray[bool]:
 def refd_bin_img() -> npt.NDArray[bool]:
     return (cv2.imread(TEST_REF_BIN_IMG_PTH,
                        cv2.IMREAD_GRAYSCALE) / MAX_PX_VAL).astype(bool)
+
+
+@pytest.fixture()
+def grey_img() -> npt.NDArray[np.uint8]:
+    return cv2.imread(GREYSCALE_IMG_PTH, cv2.IMREAD_GRAYSCALE)
+
+
+@pytest.fixture()
+def circles_img() -> npt.NDArray[np.uint8]:
+    return cv2.imread(CIRCLES_IMG_PTH, cv2.IMREAD_GRAYSCALE)
+
+
+@pytest.fixture()
+def subimg() -> npt.NDArray[np.uint8]:
+    return cv2.imread(SUBIMG_PTH)
 
 
 def test_segment_image() -> None:
@@ -87,7 +98,7 @@ def test_smooth_foreground_bounds(refd_bin_img: npt.NDArray[bool]) -> None:
                          117, 117, 116, 120, 135, 137, 137, 137, 137, 137, 137,
                          136, 138, 137, 128, 126, 93, 95, 95, 136, 136, 136,
                          136])
-    upper_lower_xs = [np.arange(lower_ys.size), np.arange(lower_ys.size)]
+    upper_lower_xs = [np.arange(upper_ys.size), np.arange(lower_ys.size)]
     upper_lower_ys = [upper_ys, lower_ys]
 
     refd_upper_lower_xs, refd_upper_lower_ys = smooth_foreground_bounds(
@@ -99,17 +110,18 @@ def test_smooth_foreground_bounds(refd_bin_img: npt.NDArray[bool]) -> None:
     assert np.all(refd_upper_lower_ys[0] < 66)
     assert np.all(refd_upper_lower_ys[1] > 127)
 
-    upper_ys = np.array([43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43,
-                         43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43,
-                         43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43, 43])
-    lower_ys = np.array([133, 133, 133, 133, 133, 133, 133, 133, 133, 133, 133,
-                         133, 133, 133, 133, 133, 133, 133, 133, 133, 133, 133,
-                         133, 133, 133, 133, 133, 133, 133, 133, 133, 133])
-    upper_lower_xs = [np.arange(lower_ys.size), np.arange(lower_ys.size)]
+    upper_ys = np.ones((50,), int) * 43
+    lower_ys = np.ones((50,), int) * 133
+    upper_lower_xs = [np.arange(upper_ys.size), np.arange(lower_ys.size)]
     upper_lower_ys = [upper_ys, lower_ys]
 
+    img = np.zeros((200, 200))
+    polyline = np.array([[0, 43], [upper_ys.size - 1, 43],
+                         [lower_ys.size - 1, 133], [0, 133]])
+    cv2.drawContours(img, [polyline], 0, 1, cv2.FILLED)
+
     refd_upper_lower_xs, refd_upper_lower_ys = smooth_foreground_bounds(
-        refd_bin_img, upper_lower_xs, upper_lower_ys)
+        img.astype(bool), upper_lower_xs, upper_lower_ys)
 
     for i in (0, 1):
         assert np.array_equal(upper_lower_xs[i], refd_upper_lower_xs[i])
@@ -193,3 +205,55 @@ def test_scale_bgr_values() -> None:
 
     assert np.array_equal(expected_result, bgrs)
 
+
+def test_extract_channel() -> None:
+    img = np.zeros((10, 20, 3))
+    img[..., 1] = 1
+    flag = ImageChannel.GREEN
+
+    channel = extract_channel(img, flag)
+    assert np.all(channel) == 1
+
+
+def test_auto_segment_image(grey_img: npt.NDArray[np.uint8]) -> None:
+    bin_img = auto_segment_image(~grey_img)
+
+    assert len(np.unique(bin_img)) == 2
+    assert 0.15 < np.count_nonzero(bin_img) / np.prod(bin_img.shape) < 0.30
+
+
+def test_detect_circular_objects(circles_img: npt.NDArray[np.uint8]) -> None:
+    assert len(detect_circular_objects(circles_img)) == 7
+
+
+def test_centre_coordinates() -> None:
+    contours = [np.array([[[0, 0]], [[10, 0]], [[10, 10]], [[0, 10]]])]
+
+    assert np.array_equal(centre_coordinates(contours)[0], np.array([5, 5]))
+
+
+def test_subimage_coordinates(subimg: npt.NDArray[np.uint8]) -> None:
+    coords = subimage_coordinates(subimg).tolist()
+
+    assert [25, 25, 74, 74] in coords
+    assert [0, 0, 4, 4] in coords
+
+
+@pytest.mark.parametrize('min_area,top_n', [(None, 2), (100, None)])
+def test_largest_objects(min_area: int, top_n: int) -> None:
+    objs = [np.array([[0, 0], [10, 0], [10, 10], [0, 10]]),
+            np.array([[20, 20], [25, 20], [25, 25], [20, 25]]),
+            np.array([[30, 30], [50, 30], [50, 50], [30, 50]])]
+    img = cv2.drawContours(np.zeros((60, 60), np.uint8), objs, -1, 1,
+                           cv2.FILLED).astype(bool)
+
+    out_img = np.zeros((60, 60), np.uint8)
+    upper_lower_xs, upper_lower_ys = largest_objects(img, min_area, top_n)
+    for ul_xs, ul_ys in zip(upper_lower_xs, upper_lower_ys):
+        polyline = np.array([[x, y] for x, y in zip(np.append(
+            ul_xs[0], ul_xs[1]), np.append(ul_ys[0], ul_ys[1]))])
+        cv2.drawContours(out_img, [polyline], 0, 1, cv2.FILLED)
+
+    expected_result = cv2.drawContours(img.astype(
+        np.uint8), objs, 1, 0, cv2.FILLED)
+    assert np.array_equal(out_img, expected_result)
