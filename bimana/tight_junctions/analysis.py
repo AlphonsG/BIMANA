@@ -81,7 +81,7 @@ def segment_cells(
                                     max_radius, min_obj_area, bgd_px_thresh)
 
     procd_imgs = []
-    procd_imgs.append(('cells_image_channel', grey))
+    procd_imgs.append(('cell image channel', grey))
     cell_img = img.copy()
     cv2.drawContours(cell_img, cells, -1, (0, 0, 255), 2)
     procd_imgs.append(('cells', cell_img))
