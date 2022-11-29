@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
@@ -217,3 +218,4 @@ def gen_histogram(
     output_path = output_dir / (' '.join((re.sub(
         r'\(.*\)', '', name) + ' histogram').split())).lower()
     ax.get_figure().savefig(output_path, dpi=dpi)
+    plt.close()
