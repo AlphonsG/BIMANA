@@ -1,3 +1,4 @@
+-e git+https://github.com/AlphonsG/BIMANA@8b206fac998f1f671e6b6c119f883ebe451a7db4#egg=bimana
 certifi==2022.9.24
 cffi==1.15.1
 charset-normalizer==2.1.1
@@ -36,3 +37,4 @@ torchvision==0.14.0
 typing_extensions==4.4.0
 urllib3==1.26.13
 Werkzeug==2.2.2
+wheel==0.38.4
