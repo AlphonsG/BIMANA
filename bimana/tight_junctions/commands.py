@@ -163,7 +163,7 @@ def tight_junction_analysis(
                             f'({name})'].append(stat)
                 curr_output_dir.mkdir(parents=True, exist_ok=True)
                 gen_histogram({'Tight Junction Pixel Intensity (%)':
-                    tight_junc_intsty}, curr_output_dir)
+                               tight_junc_intsty}, curr_output_dir)
 
                 metrics['Intercellular Junction Organization '
                         'Quantification (AU)'].append(
@@ -177,7 +177,7 @@ def tight_junction_analysis(
                     metrics['Tight Junction Fragment Size (No. Pixels) '
                             f'({name})'].append(stat)
                 gen_histogram({'Tight Junction Fragment Size (No. Pixels)':
-                    tight_junc_sizes}, curr_output_dir)
+                               tight_junc_sizes}, curr_output_dir)
 
             if analyse_cells:
                 cells, curr_procd_imgs = segment_cells(

@@ -2,7 +2,7 @@ import shutil
 from pathlib import Path
 
 from bimana.tight_junctions.commands import (METRICS_CSV_FILENAME,
-                                            tight_junction_analysis)
+                                             tight_junction_analysis)
 from tests import TIGHT_JUNCS_IMG_PTH
 
 

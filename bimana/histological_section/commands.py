@@ -224,16 +224,16 @@ def histological_section_analysis(
 
             procd_imgs = []
 
-            upper_lower_xs_ys, curr_procd_imgs = tissue_boundary(img,
-                scale_bgr_values(non_tissue_lower_bgr),
+            upper_lower_xs_ys, curr_procd_imgs = tissue_boundary(
+                img, scale_bgr_values(non_tissue_lower_bgr),
                 scale_bgr_values(non_tissue_upper_bgr), selected_tissue,
                 top, minimum, non_tiss_sens,
                 not no_tissue_boundary_smoothing)
             procd_imgs += curr_procd_imgs
 
             if staining_amount_in_tissue_area:
-                results = amount_staining_in_tissue_area(img,
-                    upper_lower_xs_ys[0], upper_lower_xs_ys[1],
+                results = amount_staining_in_tissue_area(
+                    img, upper_lower_xs_ys[0], upper_lower_xs_ys[1],
                     scale_bgr_values(stain_lower_bgr),
                     scale_bgr_values(stain_upper_bgr))
                 pct_stain, stain_amt, tiss_size, curr_procd_imgs = results
@@ -245,8 +245,8 @@ def histological_section_analysis(
                     pct_stain)
 
             if cilia_amount_above_tissue_area:
-                results = amount_cilia_above_tissue_area(img,
-                    upper_lower_xs_ys[0], upper_lower_xs_ys[1],
+                results = amount_cilia_above_tissue_area(
+                    img, upper_lower_xs_ys[0], upper_lower_xs_ys[1],
                     scale_bgr_values(cilia_lower_bgr),
                     scale_bgr_values(cilia_upper_bgr), cilia_region_thickness)
                 pct_cilia, cilia_amt, reg_size, curr_procd_imgs = results
