@@ -22,6 +22,8 @@ dependencies = [
     "pyvips",
     "matplotlib",
     "kornia",
+    'xlsxwriter',
+    'openpyxl',
 ]
 
 [project.urls]
@@ -30,7 +32,7 @@ documentation = "https://github.com/AlphonsG/BIMANA"
 repository = "https://github.com/AlphonsG/BIMANA"
 
 [project.optional-dependencies]
-test = ['pytest', 'pytest-cov']
+test = ['pytest', 'pytest-cov', 'flake8']
 
 [project.scripts]
 bimana = "bimana.__main__:main"
