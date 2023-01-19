@@ -184,7 +184,7 @@ class MetricsTxtFileProcessor:
         df.insert(len(df.columns), '', '', True)
         offset = 0
         for i, well in enumerate(df.iloc[:, 0:-1]):
-            if ((' ' in well and  (curr_compd := well.rsplit(
+            if ((' ' in well and (curr_compd := well.rsplit(
                  ' ', 1)[0]) != prev_compd) or (' ' not in well and (
                      curr_compd := re.findall(
                          r'\d+', well)[-1]) != prev_compd)):
@@ -488,7 +488,7 @@ class MetricsTxtFileProcessor:
             df.columns = header_mapping
             fld_chg_df.columns = header_mapping
             df =  pd.concat([time_df, df], axis=1)
-            fld_chg_df =  pd.concat([time_df, fld_chg_df], axis=1)
+            fld_chg_df = pd.concat([time_df, fld_chg_df], axis=1)
             df.columns = header_mapping2
             fld_chg_df.columns = header_mapping2
             old_headers = list(df.columns)
@@ -496,11 +496,11 @@ class MetricsTxtFileProcessor:
 
             df.to_excel(writer, startrow=8, index=False, header=False)
 
-            mean_cols = [i for i, x in enumerate(old_headers)  if x == STD_COL]
+            mean_cols = [i for i, x in enumerate(old_headers) if x == STD_COL]
             fld_chg_df.columns = pd.Index(header_mapping)
             fld_chg_df_style = fld_chg_df.style.apply(self._flag, axis=0,
                                                       subset=mean_cols)
-            mean_cols = [i for i, x in enumerate(old_headers)  if x == SEM_COL]
+            mean_cols = [i for i, x in enumerate(old_headers) if x == SEM_COL]
             fld_chg_df_style.columns = pd.Index(header_mapping)
             fld_chg_df_style = fld_chg_df_style.apply(self._flag, axis=0,
                                                       subset=mean_cols)
