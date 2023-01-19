@@ -1,0 +1,30 @@
+from pathlib import Path
+
+DATA_DIR = Path(__file__).parent.resolve() / 'data'
+
+TEST_IMG_PTH = str(DATA_DIR / 'image.tif')
+TEST_BIN_IMG_PTH = str(DATA_DIR / 'binary_image.tif')
+TEST_REF_BIN_IMG_PTH = str(DATA_DIR / 'cropped_refined_binary_image.tif')
+TEST_TISS_BNDY_PTH = str(DATA_DIR / 'tissue_boundary.pickle')
+ROOT_DIR_PTH = DATA_DIR / str('root_directory')
+HIST_SECT_IMG_DIR_PTH = str(DATA_DIR / 'histological_section/images')
+LENA_IMG_PTH = str(DATA_DIR / 'lena.tif')
+GREYSCALE_IMG_PTH = str(DATA_DIR / 'greyscale_image.jpg')
+BIN_TGHT_JNCS_PTH = str(DATA_DIR / 'binary_tight_junctions.png')
+CIRCLES_IMG_PTH = str(DATA_DIR / 'circles.png')
+TIGHT_JUNCS_IMG_PTH = str(DATA_DIR / 'tight_junctions.tiff')
+SUBIMG_PTH = str(DATA_DIR / 'subimage/subimage.png')
+METRICS_TXT_FILE_PATH = str(DATA_DIR / 'live_cell_imaging/test.txt')
+METRICS_DF_PATH = str(DATA_DIR / 'live_cell_imaging/metrics_df.csv')
+INFO_DF_PATH = str(DATA_DIR / 'live_cell_imaging/info_df.csv')
+TIME_DF_PATH = str(DATA_DIR / 'live_cell_imaging/time_df.csv')
+NOTES_COMPDS_DF_PATH = str(DATA_DIR / 'live_cell_imaging/'
+                           'notes_compounds_df.csv')
+STATS_DF = str(DATA_DIR / 'live_cell_imaging/stats_df.csv')
+CTRL_DF = str(DATA_DIR / 'live_cell_imaging/ctrl_df.csv')
+FLD_CHG_DF = str(DATA_DIR / 'live_cell_imaging/fld_chg_df.csv')
+COMPDS_DF = str(DATA_DIR / 'live_cell_imaging/compds_df.csv')
+FLD_CHG_STATS_DF = str(DATA_DIR / 'live_cell_imaging/fld_chg_stats_df.csv')
+GEND_EXCEL = str(DATA_DIR / 'live_cell_imaging/test.xlsx')
+FIGURES_DIR = str(DATA_DIR / 'live_cell_imaging/figures')
+DFS_PATH = str(DATA_DIR / 'live_cell_imaging/dfs.pickle')
