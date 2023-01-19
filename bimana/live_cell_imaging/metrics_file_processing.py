@@ -487,7 +487,7 @@ class MetricsTxtFileProcessor:
             header_mapping = [i for i, _ in enumerate(old_headers)]
             df.columns = header_mapping
             fld_chg_df.columns = header_mapping
-            df =  pd.concat([time_df, df], axis=1)
+            df = pd.concat([time_df, df], axis=1)
             fld_chg_df = pd.concat([time_df, fld_chg_df], axis=1)
             df.columns = header_mapping2
             fld_chg_df.columns = header_mapping2
