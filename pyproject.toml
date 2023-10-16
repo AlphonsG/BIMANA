@@ -18,7 +18,7 @@ dependencies = [
     "click-web",
     "scipy",
     "opencv-python",
-    "pandas",
+    "pandas<2.0.0",
     "pyvips",
     "matplotlib",
     "kornia",

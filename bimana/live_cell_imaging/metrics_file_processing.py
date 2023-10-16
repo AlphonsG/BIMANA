@@ -163,6 +163,9 @@ class MetricsTxtFileProcessor:
             f.seek(0)
             df = pd.read_csv(f, names=range(num_cols), delimiter='\t',
                              header=None)
+        if df.iloc[1, 0] == 'Date Time':
+            placeholder = pd.DataFrame(np.random.rand(5, df.shape[1]))
+            df = pd.concat([placeholder, df]).reset_index(drop=True)
 
         if df.loc[6, 0] is not np.nan:
             df.loc[5.5] = [np.nan] * num_cols
@@ -283,7 +286,10 @@ class MetricsTxtFileProcessor:
             else:
                 ctrl_idx = 0
 
+        if np.inf in fld_chg_df.values:
+            print(f'{self.txt_file}: Fold change data frame has inf values.')
         fld_chg_df.fillna(0, inplace=True)
+        fld_chg_df.replace(np.inf, 0, inplace=True)
 
         return fld_chg_df
 
