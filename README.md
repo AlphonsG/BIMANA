@@ -86,16 +86,17 @@ Example commands (first run `cd misc` from the cloned repository folder):
 
 - Histological Section Analysis
    ```
-   bimana histological-section-analysis --staining-amount-in-tissue-area  --cilia-amount-above-tissue-area
+   bimana histological-section-analysis ./examples/histological_section --staining-amount-in-tissue-area  --cilia-amount-above-tissue-area
    ```
 
 - Tight junction analysis
    ```
-   bimana tight-junction-analysis misc/examples/tight_junctions  --analyse-tight-junctions --analyse-cells
+   bimana tight-junction-analysis ./examples/tight_junctions  --analyse-tight-junctions --analyse-cells
    ```
+   
 - Live cell imaging metrics analysis
    ```
-   bimana live-cell-imaging metrics-file-processing misc/examples/live_cell_imaging
+   bimana live-cell-imaging metrics-file-processing ./examples/live_cell_imaging
    ```
 
 ## License <a id="license"></a>
